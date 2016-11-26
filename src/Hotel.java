@@ -27,4 +27,9 @@ public class Hotel {
     {
         return location;
     }
+
+    public void displayHotelMenu()
+    {
+        System.out.println("Hotel Menu Displayed");
+    }
 }

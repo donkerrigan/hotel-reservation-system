@@ -26,27 +26,27 @@ public class HotelSystem {
 
     private void displayMenu()
     {
-        int response = 0;
-        while(response != 5)
+        String response = "0";
+        while(!response.equals("5"))
         {
-            System.out.println("\nHotel Reservation Main Menu: \n");
+            System.out.println("\n\n\nHotel Reservation Main Menu: \n");
             System.out.println("1: Display Available Hotel Brands.");
             System.out.println("2: Search for Hotel Brand Name");
             System.out.println("3: ");
             System.out.println("4: ");
             System.out.println("5: Exit System");
-            response = input.nextInt();
+            response = input.next();
 
             switch(response) {
-                case 1:
+                case "1":
                     break;
-                case 2: searchHotelBrand();
+                case "2": searchHotelBrand();
                     break;
-                case 3:
+                case "3":
                     break;
-                case 4:
+                case "4":
                     break;
-                case 5:
+                case "5":
                     break;
                 default:
                     System.out.println("Invalid Selection, please try again.");
@@ -57,22 +57,38 @@ public class HotelSystem {
 
     public void searchHotelBrand()
     {
-        String search;
+        CharSequence search;
         List<HotelBrand> results = new ArrayList<HotelBrand>();
         System.out.println("\nEnter your search for Hotel Brand Names: ");
-        search = input.nextLine();
+        search = input.next();
+
         for(int i=0; i<brands.length; i++)
-        {
-            if(brands[i].getHotelBrand() == search)
+            if(brands[i].getHotelBrand().contains(search))
                 results.add(brands[i]);
-        }
+
         if(results.size()==0) {
             System.out.println("Sorry no results were found.");
             return;
         }
-        System.out.println("Showing search results: ");
-        for(int i=0; i<results.size(); i++)
-            System.out.println(i + ": " + results.get(i).getHotelBrand());
 
+        else {
+            System.out.println("\nShowing search results: ");
+            for (int i = 0; i < results.size(); i++)
+                System.out.println(i + ": " + results.get(i).getHotelBrand());
+            System.out.println("\nSelect a Brand you wish to view(enter '" + results.size() + "' to go to main menu): ");
+            int brand = input.nextInt();
+
+            while(brand<0 || brand>results.size())
+            {
+                System.out.println("Invalid Selection, try again(enter '" + (results.size()) + "' to go to main menu): ");
+                brand = input.nextInt();
+            }
+
+            if(brand>0 && brand<results.size())
+                results.get(brand).searchLocations();
+            else
+                return;
+
+        }
     }
 }
