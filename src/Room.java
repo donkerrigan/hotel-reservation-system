@@ -4,16 +4,36 @@
 public class Room {
     public int roomNumber, bedNum;
     public String bedSize;
-    public boolean smoking;
+    public boolean smoking, available;
     public double price;
 
-    public Room(int roomNumber, int bedNum, String bedsize, boolean smoking, double price)
+    public Room(int roomNumber)
     {
         this.roomNumber = roomNumber;
-        this.bedNum = bedNum;
-        this.bedSize = bedsize;
-        this.smoking = smoking;
-        this.price = price;
+        available = true;
+        initialSetup();
+    }
 
+    private void initialSetup()
+    {
+        int rand = (int)Math.random()*1;
+
+        if(rand==1)
+            smoking=true;
+        else
+            smoking=false;
+
+        rand = (int)Math.random()*1;
+
+        if(rand==1) {
+            bedNum = 1;
+            bedSize = "King";
+            price = 120.00;
+        }
+        else{
+            bedNum = 2;
+            bedSize = "Queen";
+            price = 100.00;
+        }
     }
 }

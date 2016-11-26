@@ -5,9 +5,8 @@ public class Customer {
     public String selection;
     public String reservation;
 
-    public Customer(String selection, String reservation)
+    public Customer()
     {
-        this.selection = selection;
-        this.reservation = reservation;
+
     }
 }
