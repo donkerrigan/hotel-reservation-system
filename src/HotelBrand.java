@@ -1,3 +1,5 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -7,14 +9,22 @@ import java.util.Scanner;
 public class HotelBrand {
     private Scanner input;
     public String brandName;
-    public Hotel[] hotelLocations;
+    List<Hotel> hotelLocations;
 
     public HotelBrand(String brandName)
     {
-        hotelLocations = new Hotel[10];
+        File locationFile = new File("locationsFile.txt");
+        Scanner fileIn = null;
+        try{
+            fileIn = new Scanner(locationFile);
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        hotelLocations = new ArrayList<Hotel>();
         this.brandName = brandName;
-        for(int i=0; i<10; i++)
-            hotelLocations[i] = new Hotel(brandName, ""+i);
+        while(fileIn.hasNext())
+            hotelLocations.add(new Hotel(brandName, fileIn.nextLine()));
     }
 
     public String getHotelBrand()
@@ -29,13 +39,13 @@ public class HotelBrand {
         input = new Scanner(System.in);
         CharSequence search = input.next();
         if(search.equals("ALL"))
-            for(int i=0; i<hotelLocations.length; i++)
-                results.add(hotelLocations[i]);
+            for(int i=0; i<hotelLocations.size(); i++)
+                results.add(hotelLocations.get(i));
 
         else {
-            for(int i=0; i<hotelLocations.length; i++)
-                if(hotelLocations[i].getName().contains(search))
-                    results.add(hotelLocations[i]);
+            for(int i=0; i<hotelLocations.size(); i++)
+                if(hotelLocations.get(i).getLocation().contains(search))
+                    results.add(hotelLocations.get(i));
         }
 
         if(results.size() == 0) {

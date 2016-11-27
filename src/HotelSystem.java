@@ -1,3 +1,5 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -6,15 +8,23 @@ import java.util.Scanner;
  * Created by Don Kerrigan on 11/17/2016.
  */
 public class HotelSystem {
-    public HotelBrand[] brands;
+    public List<HotelBrand> brands;
     Scanner input;
 
     public HotelSystem()
     {
-        brands = new HotelBrand[10];
+        File brandFile = new File("brandFile.txt");
+        Scanner fileIn = null;
+        try {
+            fileIn = new Scanner(brandFile);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        brands = new ArrayList<HotelBrand>();
         input = new Scanner(System.in);
-        for(int i=0; i<10; i++)
-            brands[i] = new HotelBrand("Brand " + i);
+        while(fileIn.hasNext())
+            brands.add(new HotelBrand(fileIn.nextLine()));
+        fileIn.close();
         displayMenu();
     }
 
@@ -39,6 +49,9 @@ public class HotelSystem {
 
             switch(response) {
                 case "1":
+                    System.out.println("\nShowing all brand names: ");
+                    for(int i=0; i<brands.size(); i++)
+                        System.out.println(brands.get(i).getHotelBrand());
                     break;
                 case "2": searchHotelBrand();
                     break;
@@ -62,9 +75,9 @@ public class HotelSystem {
         System.out.println("\nEnter your search for Hotel Brand Names: ");
         search = input.next();
 
-        for(int i=0; i<brands.length; i++)
-            if(brands[i].getHotelBrand().contains(search))
-                results.add(brands[i]);
+        for(int i=0; i<brands.size(); i++)
+            if(brands.get(i).getHotelBrand().contains(search))
+                results.add(brands.get(i));
 
         if(results.size()==0) {
             System.out.println("Sorry no results were found.");
@@ -84,7 +97,7 @@ public class HotelSystem {
                 brand = input.nextInt();
             }
 
-            if(brand>0 && brand<results.size())
+            if(brand>=0 && brand<results.size())
                 results.get(brand).searchLocations();
             else
                 return;
