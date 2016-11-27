@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -73,8 +74,9 @@ public class HotelSystem {
         CharSequence search;
         List<HotelBrand> results = new ArrayList<HotelBrand>();
         System.out.println("\nEnter your search for Hotel Brand Names: ");
-        search = input.next();
-
+        if(input.hasNextLine())
+            search = input.nextLine();
+        search = input.nextLine();
         for(int i=0; i<brands.size(); i++)
             if(brands.get(i).getHotelBrand().contains(search))
                 results.add(brands.get(i));
@@ -87,21 +89,29 @@ public class HotelSystem {
         else {
             System.out.println("\nShowing search results: ");
             for (int i = 0; i < results.size(); i++)
-                System.out.println(i + ": " + results.get(i).getHotelBrand());
-            System.out.println("\nSelect a Brand you wish to view(enter '" + results.size() + "' to go to main menu): ");
-            int brand = input.nextInt();
-
-            while(brand<0 || brand>results.size())
+                System.out.println((i+1) + ": " + results.get(i).getHotelBrand());
+            System.out.println("\nSelect a Brand you wish to view(enter '0' to go to main menu): ");
+            boolean e = true;
+            int brand = -1;
+            do
             {
-                System.out.println("Invalid Selection, try again(enter '" + (results.size()) + "' to go to main menu): ");
-                brand = input.nextInt();
-            }
+                try {
+                    brand = input.nextInt();
+                    if(brand>0 && brand<=results.size())
+                        e = false;
+                    else if(brand == 0)
+                        return;
+                    else
+                        throw new InputMismatchException();
+                }
+                catch(InputMismatchException f)
+                {
+                    System.out.println("Invalid Selection, try again(enter '0' to go to main menu): ");
+                    input.next();
+                }
+            }while(e);
 
-            if(brand>=0 && brand<results.size())
-                results.get(brand).searchLocations();
-            else
-                return;
-
+            results.get(brand-1).searchLocations();
         }
     }
 }

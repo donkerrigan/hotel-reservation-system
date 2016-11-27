@@ -25,6 +25,7 @@ public class HotelBrand {
         this.brandName = brandName;
         while(fileIn.hasNext())
             hotelLocations.add(new Hotel(brandName, fileIn.nextLine()));
+        fileIn.close();
     }
 
     public String getHotelBrand()
@@ -37,7 +38,9 @@ public class HotelBrand {
         List<Hotel> results = new ArrayList<Hotel>();
         System.out.println("Please enter the name of the city you are looking to book in(enter 'ALL' to view all locations): ");
         input = new Scanner(System.in);
-        CharSequence search = input.next();
+        CharSequence search;
+        search = input.nextLine();
+
         if(search.equals("ALL"))
             for(int i=0; i<hotelLocations.size(); i++)
                 results.add(hotelLocations.get(i));
@@ -49,12 +52,12 @@ public class HotelBrand {
         }
 
         if(results.size() == 0) {
-            System.out.println("No results found.");
+            System.out.println("\nNo results found.");
             return;
         }
 
         else {
-            System.out.println("Showing Search Results Below: ");
+            System.out.println("\nShowing Search Results Below: ");
             for(int i=0; i<results.size(); i++) {
                 System.out.println(i + ": \t" + results.get(i).getName());
                 System.out.println("\t" + results.get(i).getLocation());
