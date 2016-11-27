@@ -43,22 +43,23 @@ public class HotelSystem {
             System.out.println("\n\n\nHotel Reservation Main Menu: \n");
             System.out.println("1: Display Available Hotel Brands.");
             System.out.println("2: Search for Hotel Brand Name");
-            System.out.println("3: ");
-            System.out.println("4: ");
+            System.out.println("3: Login");
+            System.out.println("4: Create Account");
             System.out.println("5: Exit System");
+            System.out.print("\nEnter Your Selection: ");
             response = input.next();
 
             switch(response) {
                 case "1":
                     System.out.println("\nShowing all brand names: ");
-                    for(int i=0; i<brands.size(); i++)
-                        System.out.println(brands.get(i).getHotelBrand());
+                    for (HotelBrand brand : brands)
+                        System.out.println(brand.getHotelBrand());
                     break;
                 case "2": searchHotelBrand();
                     break;
-                case "3":
+                case "3": System.out.println("Feature currently unavailable. Sorry for the inconvenience.");
                     break;
-                case "4":
+                case "4": System.out.println("Feature currently unavailable. Sorry for the inconvenience.");
                     break;
                 case "5":
                     break;
@@ -73,18 +74,19 @@ public class HotelSystem {
     {
         CharSequence search;
         List<HotelBrand> results = new ArrayList<HotelBrand>();
-        System.out.println("\nEnter your search for Hotel Brand Names: ");
+        do{
+
+
+        System.out.println("\nEnter your search for Hotel Brand Names(enter '0' to go back to the menu): ");
         if(input.hasNextLine())
             search = input.nextLine();
         search = input.nextLine();
-        for(int i=0; i<brands.size(); i++)
-            if(brands.get(i).getHotelBrand().contains(search))
-                results.add(brands.get(i));
+        for (HotelBrand brand1 : brands)
+            if (brand1.getHotelBrand().contains(search))
+                results.add(brand1);
 
-        if(results.size()==0) {
+        if(results.size()==0)
             System.out.println("Sorry no results were found.");
-            return;
-        }
 
         else {
             System.out.println("\nShowing search results: ");
@@ -112,6 +114,8 @@ public class HotelSystem {
             }while(e);
 
             results.get(brand-1).searchLocations();
+            return;
         }
+        }while(!search.equals("0"));
     }
 }

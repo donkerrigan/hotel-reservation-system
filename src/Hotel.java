@@ -2,15 +2,16 @@ import java.util.Scanner;
 
 /**
  * Created by Don Kerrigan on 11/17/2016.
+ *
  */
 public class Hotel {
     private String name;
     private String number;
     private String email;
     private String location;
-    public Room[] roomsArray;
+    private Room[] roomsArray;
     private Amenities amenities;
-    Scanner input;
+    private Scanner input;
 
     public Hotel(String name, String location)
     {
@@ -46,15 +47,16 @@ public class Hotel {
             System.out.println("3: List Number of Available Rooms");
             System.out.println("4: Show Contact Information");
             System.out.println("5: Return to the Main Menu");
+            System.out.println("\nEnter Your Selection: ");
             select = input.next();
 
             switch(select)
             {
-                case "1":
+                case "1": System.out.println("Feature currently unavailable. Sorry for the inconvenience.");
                     break;
                 case "2": listAmenities();
                     break;
-                case "3":
+                case "3": displayAvailable();
                     break;
                 case "4": displayContact();
                     break;
@@ -67,6 +69,24 @@ public class Hotel {
         }
     }
 
+    private void displayAvailable()
+    {
+        int queen=0, king=0;
+        for(int i=0; i<roomsArray.length; i++)
+        {
+            if(roomsArray[i].available) {
+                if (roomsArray[i].bedSize.equals("Queen"))
+                    queen++;
+                else
+                    king++;
+            }
+        }
+        System.out.println("Displaying Number of Available Rooms:");
+        System.out.println("\tTotal Rooms available: " + (queen+king));
+        System.out.println("\tQueen Size Bedrooms Available:\t"+queen);
+        System.out.println("\tKing Size Bedrooms Available:\t" + king);
+    }
+
     public void displayContact()
     {
         System.out.println("\t" + name + "\n\tContact Us:");
@@ -75,7 +95,7 @@ public class Hotel {
         System.out.println("\tLocation: " + location);
     }
 
-    public void listAmenities()
+    private void listAmenities()
     {
         System.out.println("Here is a list of the amenities at the " + name + " Hotel at " + location +": ");
         System.out.println("\n\tWater Around the Hotel:\n\t\t"+amenities.waterType);
@@ -90,20 +110,20 @@ public class Hotel {
 
     private void initializeAmenities(){
         String waterType, exerciseType,entertainment;
-        boolean view;
-        int rand = (int)Math.random()*2;
+        boolean view = false;
+        int rand = (int)(Math.random()*3);
         if(rand == 0)
             waterType = "Pool";
         else if(rand == 1)
             waterType = "Ocean";
         else
             waterType = "Lake";
-        rand = (int)Math.random()*1;
+        rand = (int)(Math.random()*2);
         if(rand == 0)
             exerciseType = "Gym";
         else
             exerciseType = "None";
-        rand = (int)Math.random()*3;
+        rand = (int)(Math.random()*4);
         if(rand == 0)
             entertainment = "Business Computers";
         else if(rand == 1)
@@ -112,10 +132,8 @@ public class Hotel {
             entertainment = "Bar and Restaurant";
         else
             entertainment = "None";
-        rand = (int)Math.random()*1;
-        if(rand == 0)
-            view = false;
-        else
+        rand = (int)(Math.random()*2);
+        if(rand == 1)
             view = true;
 
         amenities = new Amenities(waterType, exerciseType, view, entertainment);

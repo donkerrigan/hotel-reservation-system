@@ -16,14 +16,14 @@ public class Room {
 
     private void initialSetup()
     {
-        int rand = (int)Math.random()*1;
+        int rand = (int)(Math.random()*2);
 
         if(rand==1)
             smoking=true;
         else
             smoking=false;
 
-        rand = (int)Math.random()*1;
+        rand = (int)(Math.random()*2);
 
         if(rand==1) {
             bedNum = 1;
