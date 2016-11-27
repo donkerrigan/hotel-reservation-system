@@ -72,10 +72,9 @@ public class Hotel {
     private void displayAvailable()
     {
         int queen=0, king=0;
-        for(int i=0; i<roomsArray.length; i++)
-        {
-            if(roomsArray[i].available) {
-                if (roomsArray[i].bedSize.equals("Queen"))
+        for (Room aRoomsArray : roomsArray) {
+            if (aRoomsArray.available) {
+                if (aRoomsArray.bedSize.equals("Queen"))
                     queen++;
                 else
                     king++;

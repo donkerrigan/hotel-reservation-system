@@ -7,15 +7,18 @@ import java.util.Scanner;
 
 /**
  * Created by Don Kerrigan on 11/17/2016.
+ *
  */
 public class HotelSystem {
     public List<HotelBrand> brands;
     Scanner input;
+    private Customer user;
 
     public HotelSystem()
     {
         File brandFile = new File("brandFile.txt");
         Scanner fileIn = null;
+        user = null;
         try {
             fileIn = new Scanner(brandFile);
         } catch (FileNotFoundException e) {
@@ -43,7 +46,10 @@ public class HotelSystem {
             System.out.println("\n\n\nHotel Reservation Main Menu: \n");
             System.out.println("1: Display Available Hotel Brands.");
             System.out.println("2: Search for Hotel Brand Name");
-            System.out.println("3: Login");
+            if(user==null)
+                System.out.println("3: Login");
+            else
+                System.out.println("3: Logout");
             System.out.println("4: Create Account");
             System.out.println("5: Exit System");
             System.out.print("\nEnter Your Selection: ");
@@ -57,9 +63,18 @@ public class HotelSystem {
                     break;
                 case "2": searchHotelBrand();
                     break;
-                case "3": System.out.println("Feature currently unavailable. Sorry for the inconvenience.");
+                case "3":
+                    if(user==null)
+                        userLogin();
+                    else
+                        user = null;
                     break;
-                case "4": System.out.println("Feature currently unavailable. Sorry for the inconvenience.");
+                case "4":
+                    if(user!=null) {
+                        System.out.println("I'm sorry you are already logged in.");
+                        break;
+                    }
+                    user = new Customer();
                     break;
                 case "5":
                     break;
@@ -117,5 +132,41 @@ public class HotelSystem {
             return;
         }
         }while(!search.equals("0"));
+    }
+
+    private void userLogin()
+    {
+        String tempU, tempP;
+        File check;
+        boolean loop = true;
+        System.out.println("Welcome Back!\n");
+        input = new Scanner(System.in);
+        while(loop) {
+            System.out.print("Please enter your username(enter '0' to exit to menu): ");
+            tempU = input.nextLine();
+            if(tempU.equals("0"))
+                return;
+            System.out.print("Please enter your password: ");
+            tempP = input.nextLine();
+            try {
+                check = new File(tempU + ".txt");
+                Scanner in = new Scanner(check);
+                String test = in.nextLine();
+                if(tempU.equals(test)) {
+                    test = in.nextLine();
+                    if(tempP.equals(test)) {
+                        System.out.println("\nGreat! You are now logged in!");
+                        user = new Customer(tempU);
+                        loop = false;
+                    }
+                    else
+                        throw new FileNotFoundException();
+                }
+                else
+                    throw new FileNotFoundException();
+            } catch (FileNotFoundException e) {
+                System.out.println("\nSorry that username or password was not found. Try again!\n");
+            }
+        }
     }
 }
