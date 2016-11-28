@@ -24,7 +24,7 @@ public class HotelSystem {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        brands = new ArrayList<HotelBrand>();
+        brands = new ArrayList<>();
         input = new Scanner(System.in);
         while(fileIn.hasNext())
             brands.add(new HotelBrand(fileIn.nextLine()));
@@ -59,7 +59,7 @@ public class HotelSystem {
                 case "1":
                     System.out.println("\nShowing all brand names: ");
                     for (HotelBrand brand : brands)
-                        System.out.println(brand.getHotelBrand());
+                        System.out.println("\t" + brand.getHotelBrand());
                     break;
                 case "2": searchHotelBrand();
                     break;
@@ -88,10 +88,8 @@ public class HotelSystem {
     public void searchHotelBrand()
     {
         CharSequence search;
-        List<HotelBrand> results = new ArrayList<HotelBrand>();
+        List<HotelBrand> results = new ArrayList<>();
         do{
-
-
         System.out.println("\nEnter your search for Hotel Brand Names(enter '0' to go back to the menu): ");
         if(input.hasNextLine())
             search = input.nextLine();
