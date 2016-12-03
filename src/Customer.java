@@ -64,7 +64,6 @@ public class Customer {
             }
         }while(loop);
     }
-
     public String getUsername()
     {
         return username;
