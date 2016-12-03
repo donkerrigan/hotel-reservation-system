@@ -6,10 +6,8 @@ import java.util.Scanner;
  *
  */
 public class Customer {
-    public String selection;
     private String username;
     private String password;
-    public String reservation;
     private File userFile;
     private PrintWriter writer;
 
