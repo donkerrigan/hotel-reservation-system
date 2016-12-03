@@ -75,6 +75,8 @@ public class HotelSystem {
                         break;
                     }
                     user = new Customer();
+                    if(user.getUsername()==null)
+                        user = null;
                     break;
                 case "5":
                     break;
@@ -126,7 +128,7 @@ public class HotelSystem {
                 }
             }while(e);
 
-            results.get(brand-1).searchLocations();
+            results.get(brand-1).searchLocations(user);
             return;
         }
         }while(!search.equals("0"));

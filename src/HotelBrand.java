@@ -36,7 +36,7 @@ public class HotelBrand {
         return brandName;
     }
 
-    public void searchLocations()
+    public void searchLocations(Customer user)
     {
         List<Hotel> results = new ArrayList<>();
         Scanner input = new Scanner(System.in);
@@ -80,7 +80,7 @@ public class HotelBrand {
                     }
                 } while (e);
 
-                results.get(select - 1).displayHotelMenu();
+                results.get(select - 1).displayHotelMenu(user);
                 return;
             }
         }while (!search.equals("0")) ;

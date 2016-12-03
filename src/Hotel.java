@@ -1,3 +1,7 @@
+import java.io.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 
 /**
@@ -6,6 +10,7 @@ import java.util.Scanner;
  */
 public class Hotel {
     private String name;
+    private Customer user;
     private String number;
     private String email;
     private String location;
@@ -36,8 +41,9 @@ public class Hotel {
         return location;
     }
 
-    public void displayHotelMenu()
+    public void displayHotelMenu(Customer user)
     {
+        this.user = user;
         input = new Scanner(System.in);
         String select = "";
         while(!select.equals("5")) {
@@ -52,7 +58,11 @@ public class Hotel {
 
             switch(select)
             {
-                case "1": System.out.println("Feature currently unavailable. Sorry for the inconvenience.");
+                case "1" :
+                    if(user==null)
+                        System.out.println("Sorry you must be logged in to use this feature.");
+                    else
+                        makeReservation();
                     break;
                 case "2": listAmenities();
                     break;
@@ -66,6 +76,170 @@ public class Hotel {
                     System.out.println("Invalid Selection, try again.");
                     break;
             }
+        }
+    }
+
+    private void makeReservation()
+    {
+        File reservationFile = new File(name + location + "Reservations" + ".txt");
+
+        try {
+            Scanner inputFile = new Scanner(reservationFile);
+            writeReservation(reservationFile, inputFile);
+        } catch (FileNotFoundException e) {
+            try {
+                System.out.println("HERE");
+                reservationFile.createNewFile();
+                PrintWriter writer = new PrintWriter(reservationFile);
+                writer.println(name + " " + location + " Reservations File");
+                writer.println("Contact: \n" + "Phone: " + number + "\nEmail: " + email + "\n");
+                writer.close();
+                Scanner inputFile = new Scanner(reservationFile);
+                writeReservation(reservationFile, inputFile);
+            } catch (IOException f) {
+                System.out.println("Sorry something went wrong. Going back to the main menu...");
+                return;
+            }
+        }
+    }
+
+    private void writeReservation(File reservationFile, Scanner readReservation)
+    {
+        boolean correctFormat = false;
+        while(readReservation.hasNextLine())
+            readReservation.nextLine();
+        try {
+            System.out.println("Thank you for choosing to stay with us!\n\nWe just need to ask a few questions(Enter 'cancel' to cancel your reservation): ");
+            System.out.println("Enter the Date you wish to make a reservation(dd-MMM-yyyy): ");
+            if(input.hasNext())
+                input.nextLine();
+            String date = input.nextLine();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy");
+            Date date2=null;
+            while(!correctFormat) {
+                try {
+                    if(date.equals("cancel")) {
+                        System.out.print("Are you sure you want to cancel?(Y or N): ");
+                        date = input.nextLine();
+                        if (date.equals("Y"))
+                            return;
+                    }
+                    else {
+                        date2 = dateFormat.parse(date);
+                        correctFormat = true;
+                    }
+                } catch (ParseException e) {
+                    System.out.println("Sorry that was the wrong format of date...try again.");
+                    System.out.println("Enter the Date you wish to make a reservation(dd-MMM-yyyy): ");
+                    date = input.nextLine();
+                }
+            }
+
+
+            System.out.print("What bed size do you need?(Queen or King): ");
+            String bedSize = input.nextLine();
+            while(!bedSize.equals("Queen") && !bedSize.equals("King")) {
+                if(bedSize.equals("cancel")){
+                    System.out.print("Are you sure you want to cancel?(Y or N): ");
+                    bedSize = input.nextLine();
+                    if(bedSize.equals("Y"))
+                        return;
+                }
+                else
+                    System.out.println("Sorry that was an incorrect selection. Try again.");
+                System.out.print("What bed size do you need?(Queen or King): ");
+                bedSize = input.nextLine();
+            }
+
+            System.out.print("Great!\nOne more question, would you like your room to be smoking friendly?(Y or N or 'cancel'): ");
+            String smoke = input.nextLine();
+            while(!smoke.equals("Y") && !smoke.equals("N"))
+            {
+                if(smoke.equals("cancel")){
+                    System.out.print("Are you sure you want to cancel?(Y or N): ");
+                    smoke = input.nextLine();
+                    if(smoke.equals("Y"))
+                        return;
+                    else
+                        smoke = null;
+                }
+                else
+                    System.out.println("Sorry that was an incorrect selection. Try again.");
+                System.out.print("Would you like your room to be smoking friendly?(Y or N): ");
+                smoke = input.nextLine();
+            }
+
+            System.out.println("Great! Please confirm your reservation information below...");
+            System.out.println("Name: " + user.getUsername());
+            System.out.println("Date: " + date2);
+            System.out.print("Bed Size: ");
+            if(bedSize.equals("K"))
+                System.out.println("King");
+            else
+                System.out.println("Queen");
+            System.out.print("Smoking: ");
+            if(smoke.equals("Y"))
+                System.out.println("Yes");
+            else
+                System.out.println("No");
+
+            System.out.println("Is this information correct?(Y or N or 'cancel'): ");
+            String confirm = input.nextLine();
+            while(!confirm.equals("Y") && !confirm.equals("N"))
+            {
+                if(confirm.equals("cancel")){
+                    System.out.print("Are you sure you want to cancel?(Y or N): ");
+                    confirm = input.nextLine();
+                    if(confirm.equals("Y"))
+                        return;
+                    else
+                        confirm = null;
+                }
+                else {
+                    System.out.println("Sorry that was not an option...try again.");
+                    System.out.println("Is this information correct?(Y or N or 'cancel'): ");
+                    confirm = input.nextLine();
+                }
+            }
+            if(confirm.equals("Y"))
+            {
+                try(FileWriter fw = new FileWriter(reservationFile, true);
+                    BufferedWriter bw = new BufferedWriter(fw);
+                    PrintWriter out = new PrintWriter(bw))
+                {
+                    out.println("Name: " + user.getUsername());
+                    out.println("Date: " + date2);
+                    out.println("BedSize: " + bedSize);
+                    out.println("Smoking: " + smoke);
+                    out.println("\n");
+                    out.close();
+                } catch (IOException e) {
+                    //exception handling left as an exercise for the reader
+                }
+                try(FileWriter userWriter = new FileWriter(user.getUsername()+".txt", true);
+                    BufferedWriter userBuff = new BufferedWriter(userWriter);
+                    PrintWriter userOut = new PrintWriter(userBuff))
+                {
+                    userOut.println("Hotel: " + name + " at " + location);
+                    userOut.println("Name: " + user.getUsername());
+                    userOut.println("Date: " + date2);
+                    userOut.println("BedSize: " + bedSize);
+                    userOut.println("Smoking: " + smoke);
+                    userOut.println("\n");
+                    userOut.close();
+                } catch (IOException e) {
+                    //exception handling left as an exercise for the reader
+                }
+            }
+            else if(confirm.equals("N"))
+            {
+                System.out.println("Okay let's start over...");
+                writeReservation(reservationFile, readReservation);
+                return;
+            }
+
+        }finally {
+
         }
     }
 

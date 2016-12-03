@@ -26,8 +26,10 @@ public class Customer {
         do {
             System.out.print("\nPlease enter your desired username/email(enter '0' to exit to menu): ");
             username = input.nextLine();
-            if(username.equals("0"))
+            if(username.equals("0")) {
+                username = null;
                 return;
+            }
             try {
                 userFile = new File(username + ".txt");
                 Scanner inputFile = new Scanner(userFile);
@@ -47,9 +49,12 @@ public class Customer {
                         }
                     else
                     {
-                        writer.print(password);
+                        writer.println(password);
                         System.out.println("\nGreat! We have linked your password to your username!\nYou are now logged in!");
                         loop = false;
+                        writer.println("");
+                        writer.println("Reservations: ");
+                        writer.println("");
                         writer.close();
                     }
                 }
@@ -60,5 +65,10 @@ public class Customer {
                 }
             }
         }while(loop);
+    }
+
+    public String getUsername()
+    {
+        return username;
     }
 }
