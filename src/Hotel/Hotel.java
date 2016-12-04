@@ -1,6 +1,5 @@
 package Hotel;
 import ReservationSystem.Customer;
-
 import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
