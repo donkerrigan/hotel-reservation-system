@@ -1,3 +1,5 @@
+package ReservationSystem;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -43,9 +45,9 @@ public class HotelSystem {
         String response = "0";
         while(!response.equals("5"))
         {
-            System.out.println("\n\n\nHotel Reservation Main Menu: \n");
-            System.out.println("1: Display Available Hotel Brands.");
-            System.out.println("2: Search for Hotel Brand Name");
+            System.out.println("\n\n\nHotel.Hotel Reservation Main Menu: \n");
+            System.out.println("1: Display Available Hotel.Hotel Brands.");
+            System.out.println("2: Search for Hotel.Hotel Brand Name");
             if(user==null)
                 System.out.println("3: Login");
             else
@@ -92,7 +94,7 @@ public class HotelSystem {
         CharSequence search;
         List<HotelBrand> results = new ArrayList<>();
         do{
-        System.out.println("\nEnter your search for Hotel Brand Names(enter '0' to go back to the menu): ");
+        System.out.println("\nEnter your search for Hotel.Hotel Brand Names(enter '0' to go back to the menu): ");
         if(input.hasNextLine())
             search = input.nextLine();
         search = input.nextLine();

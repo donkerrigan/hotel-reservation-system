@@ -1,2 +1,2 @@
 # hotel-reservation-system
-Software Engineering I group project: Hotel Reservation System
+Software Engineering I group project: Hotel.Hotel Reservation System

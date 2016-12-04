@@ -1,3 +1,6 @@
+package Hotel;
+import ReservationSystem.Customer;
+
 import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -47,9 +50,9 @@ public class Hotel {
         input = new Scanner(System.in);
         String select = "";
         while(!select.equals("5")) {
-            System.out.println("\n\nWelcome to the " + name +" Hotel at " + location + " Main Menu: ");
+            System.out.println("\n\nWelcome to the " + name +" Hotel.Hotel at " + location + " Main Menu: ");
             System.out.println("1: Make a Reservation");
-            System.out.println("2: List Amenities");
+            System.out.println("2: List Hotel.Amenities");
             System.out.println("3: List Number of Available Rooms");
             System.out.println("4: Show Contact Information");
             System.out.println("5: Return to the Main Menu");
@@ -220,7 +223,7 @@ public class Hotel {
                     BufferedWriter userBuff = new BufferedWriter(userWriter);
                     PrintWriter userOut = new PrintWriter(userBuff))
                 {
-                    userOut.println("Hotel: " + name + " at " + location);
+                    userOut.println("Hotel.Hotel: " + name + " at " + location);
                     userOut.println("Name: " + user.getUsername());
                     userOut.println("Date: " + date2);
                     userOut.println("BedSize: " + bedSize);
@@ -270,10 +273,10 @@ public class Hotel {
 
     private void listAmenities()
     {
-        System.out.println("Here is a list of the amenities at the " + name + " Hotel at " + location +": ");
-        System.out.println("\n\tWater Around the Hotel:\n\t\t"+amenities.waterType);
-        System.out.println("\tExercise Room:\n\t\t" + amenities.exerciseType);
-        System.out.println("\tViews from Hotel: ");
+        System.out.println("Here is a list of the amenities at the " + name + " Hotel.Hotel at " + location +": ");
+        System.out.println("\n\tWater Around the Hotel.Hotel:\n\t\t"+amenities.waterType);
+        System.out.println("\tExercise Hotel.Room:\n\t\t" + amenities.exerciseType);
+        System.out.println("\tViews from Hotel.Hotel: ");
         if(amenities.view)
             System.out.println("\t\tYes");
         else
